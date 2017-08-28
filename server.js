@@ -14,10 +14,9 @@ const influx = new Influx.InfluxDB({
     database: 'express_response_db',
     schema: [
         {
-            measurement: 'response_times',
+            measurement: 'timestamp',
             fields: {
-                path: Influx.FieldType.STRING,
-                duration: Influx.FieldType.INTEGER
+                timestamp: Influx.FieldType.STRING,
             },
             tags: [
                 'host'
@@ -74,9 +73,9 @@ function mqttFlow() {
 
         influx.writePoints([
             {
-                measurement: 'response_times',
+                measurement: 'timestamp',
                 tags: { host: os.hostname() },
-                fields: { duration, path: req.path },
+                fields: { timestamp : message.toString()},
             }
         ]).catch(err => {
             console.error(`Error saving data to InfluxDB! ${err.stack}`)
