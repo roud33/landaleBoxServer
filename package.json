@@ -1,0 +1,24 @@
+{
+  "name": "landaleboxserver",
+  "version": "1.0.0",
+  "description": "server to handle bb mqtt steam",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roud33/landaleBoxServer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roud33/landaleBoxServer/issues"
+  },
+  "homepage": "https://github.com/roud33/landaleBoxServer#readme",
+  "dependencies": {
+    "moment": "^2.18.1",
+    "mqtt": "^2.12.0"
+  }
+}
