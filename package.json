@@ -18,7 +18,12 @@
   },
   "homepage": "https://github.com/roud33/landaleBoxServer#readme",
   "dependencies": {
+    "async": "^2.5.0",
+    "express": "^4.15.4",
+    "http": "0.0.0",
+    "influx": "^5.0.7",
     "moment": "^2.18.1",
-    "mqtt": "^2.12.0"
+    "mqtt": "^2.12.0",
+    "os": "^0.1.1"
   }
 }
