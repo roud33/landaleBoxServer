@@ -12,6 +12,8 @@ const Influx = require('influx');
 const influx = new Influx.InfluxDB({
     host: 'localhost',
     database: 'express_response_db',
+     username: 'paul',
+  password: 'timeseries4days',
     schema: [
         {
             measurement: 'response_times',
