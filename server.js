@@ -95,7 +95,7 @@ app.get('/times', function (req, res) {
     select * from timestamp
     where host = ${Influx.escape.stringLit(os.hostname())}
     order by time desc
-    limit 10
+    limit 10000
   `).then(result => {
             res.json(result)
         }).catch(err => {
