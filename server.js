@@ -17,6 +17,9 @@ const influx = new Influx.InfluxDB({
             measurement: 'presence',
             fields: {
                 beacons: Influx.FieldType.STRING,
+                gpstime: Influx.FieldType.STRING,
+                lat: Influx.FieldType.STRING,
+                lng: Influx.FieldType.STRING,
             },
             tags: [
                 'host'
@@ -70,12 +73,13 @@ function mqttFlow() {
         // message is Buffer 
         console.log("listening to topics")
 
+        var object = JSON.parse(message.toString())
 
         influx.writePoints([
             {
                 measurement: 'presence',
                 tags: { host: os.hostname() },
-                fields: { beacons : message.toString()},
+                fields: { beacons: object.ble, gpstime: object.gpstime, lat: object.lat, lng: object.lng },
             }
         ]).catch(err => {
             console.error(`Error saving data to InfluxDB! ${err.stack}`)
