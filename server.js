@@ -14,9 +14,9 @@ const influx = new Influx.InfluxDB({
     database: 'express_response_db',
     schema: [
         {
-            measurement: 'timestamp',
+            measurement: 'presence',
             fields: {
-                timestamp: Influx.FieldType.STRING,
+                beacons: Influx.FieldType.STRING,
             },
             tags: [
                 'host'
@@ -63,7 +63,7 @@ function mqttFlow() {
     var client = mqtt.connect({ host: 'localhost', port: 1883 })
 
     client.on('connect', function () {
-        client.subscribe("alpha2/test")
+        client.subscribe("alpha2/bletest")
     })
 
     client.on('message', function (topic, message) {
@@ -73,9 +73,9 @@ function mqttFlow() {
 
         influx.writePoints([
             {
-                measurement: 'timestamp',
+                measurement: 'presence',
                 tags: { host: os.hostname() },
-                fields: { timestamp : message.toString()},
+                fields: { beacons : message.toString()},
             }
         ]).catch(err => {
             console.error(`Error saving data to InfluxDB! ${err.stack}`)
@@ -92,7 +92,7 @@ app.get('/', function (req, res) {
 
 app.get('/times', function (req, res) {
     influx.query(`
-    select * from timestamp
+    select * from presence
     where host = ${Influx.escape.stringLit(os.hostname())}
     order by time desc
     limit 10000
