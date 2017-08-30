@@ -94,7 +94,7 @@ app.get('/', function (req, res) {
 
 app.get('/times', function (req, res) {
     influx.query(`
-    select * from presence
+    select * from ble
     where host = ${Influx.escape.stringLit(os.hostname())}
     order by time desc
     limit 10000
