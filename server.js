@@ -11,8 +11,39 @@ const http = require('http')
 const Influx = require('influx');
 const influx = new Influx.InfluxDB({
     host: 'localhost',
-    database: 'express_response_db'
+    database: 'express_response_db',
+    schema: [
+        {
+            measurement: 'presence',
+            fields: {
+                beacons: Influx.FieldType.STRING,
+                gpstime: Influx.FieldType.STRING,
+                lat: Influx.FieldType.STRING,
+                lng: Influx.FieldType.STRING,
+            },
+            tags: [
+                'host'
+            ]
+        },
+        {
+            measurement: 'test',
+            fields: {
+                beacons: Influx.FieldType.STRING,
+                gpstime: Influx.FieldType.STRING,
+                lat: Influx.FieldType.STRING,
+                lng: Influx.FieldType.STRING,
+            },
+            tags: [
+                'host'
+            ]
+        }
+
+    ]
 })
+
+
+
+
 
 
 async.waterfall([
@@ -61,17 +92,18 @@ function mqttFlow() {
 
         var object = JSON.parse(message.toString())
 
+        for (var i in)
 
 
-        influx.writePoints([
-            {
-                measurement: 'presence',
-                tags: { host: os.hostname() },
-                fields: { beacons: object.ble, gpstime: object.gpstime, lat: object.lat, lng: object.lng },
-            }
-        ]).catch(err => {
-            console.error(`Error saving data to InfluxDB! ${err.stack}`)
-        })
+            influx.writePoints([
+                {
+                    measurement: 'presence',
+                    tags: { host: os.hostname() },
+                    fields: { beacons: object.ble, gpstime: object.gpstime, lat: object.lat, lng: object.lng },
+                }
+            ]).catch(err => {
+                console.error(`Error saving data to InfluxDB! ${err.stack}`)
+            })
 
         console.log(message.toString())
         //client.end()
