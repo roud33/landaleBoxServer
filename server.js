@@ -26,15 +26,15 @@ const influx = new Influx.InfluxDB({
             ]
         },
         {
-            measurement: 'test',
+            measurement: 'ble',
             fields: {
-                beacons: Influx.FieldType.STRING,
-                gpstime: Influx.FieldType.STRING,
-                lat: Influx.FieldType.STRING,
-                lng: Influx.FieldType.STRING,
+                acc: Influx.FieldType.FLOAT
             },
-            tags: [
-                'host'
+            tags: [{
+                host: 'host',
+                beacon: Influx.FieldType.STRING
+            }
+
             ]
         }
 
@@ -93,18 +93,23 @@ function mqttFlow() {
 
         var object = JSON.parse(message.toString())
 
+        if (topic == "alpha2/ble") {
+
             influx.writePoints([
                 {
-                    measurement: 'presence',
-                    tags: { host: os.hostname() },
-                    fields: { beacons: object.ble, gpstime: object.gpstime, lat: object.lat, lng: object.lng },
+                    measurement: 'ble',
+                    tags: {
+                        host: os.hostname(),
+                        beacon: object.type
+                    },
+                    fields: { acc: object.acc },
                 }
             ]).catch(err => {
                 console.error(`Error saving data to InfluxDB! ${err.stack}`)
             })
 
-        console.log(message.toString())
-        //client.end()
+
+        }
     })
 }
 
