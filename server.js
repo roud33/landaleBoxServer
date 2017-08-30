@@ -11,34 +11,7 @@ const http = require('http')
 const Influx = require('influx');
 const influx = new Influx.InfluxDB({
     host: 'localhost',
-    database: 'express_response_db',
-    schema: [
-        {
-            measurement: 'presence',
-            fields: {
-                beacons: Influx.FieldType.STRING,
-                gpstime: Influx.FieldType.STRING,
-                lat: Influx.FieldType.STRING,
-                lng: Influx.FieldType.STRING,
-            },
-            tags: [
-                'host'
-            ]
-        },
-        {
-            measurement: 'ble',
-            fields: {
-                acc: Influx.FieldType.FLOAT
-            },
-            tags: [{
-                host: 'host',
-                beacon: Influx.FieldType.STRING
-            }
-
-            ]
-        }
-
-    ]
+    database: 'express_response_db'
 })
 
 
