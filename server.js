@@ -11,7 +11,22 @@ const http = require('http')
 const Influx = require('influx');
 const influx = new Influx.InfluxDB({
     host: 'localhost',
-    database: 'express_response_db'
+    database: 'express_response_db',
+    schema: [
+        {
+            measurement: 'ble',
+            fields: {
+                acc: Influx.FieldType.FLOAT
+            },
+            tags: [{
+                host: 'host',
+                beacon: Influx.FieldType.STRING
+            }
+
+            ]
+        }
+
+    ]
 })
 
 
