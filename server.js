@@ -83,16 +83,15 @@ function mqttFlow() {
     var client = mqtt.connect({ host: 'localhost', port: 1883 })
 
     client.on('connect', function () {
-        client.subscribe("alpha2/bletest")
+        client.subscribe("alpha2/gps")
+        client.subscribe("alpha2/ble")
     })
 
     client.on('message', function (topic, message) {
         // message is Buffer 
-        console.log("listening to topics")
+        console.log("listening to topics: " + String(topic))
 
         var object = JSON.parse(message.toString())
-
-
 
             influx.writePoints([
                 {
