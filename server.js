@@ -92,7 +92,6 @@ function mqttFlow() {
 
         var object = JSON.parse(message.toString())
 
-        for (var i in)
 
 
             influx.writePoints([
