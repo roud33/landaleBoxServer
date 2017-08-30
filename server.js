@@ -69,7 +69,7 @@ function mqttFlow() {
 
         if (String(topic) == "alpha2/ble") {
 
-            console.log("test")
+
             influx.writePoints([
                 {
                     measurement: 'ble',
@@ -83,8 +83,26 @@ function mqttFlow() {
                 console.error(`Error saving data to InfluxDB! ${err.stack}`)
             })
 
+        }
+
+        if (String(topic) == "alpha2/gps") {
+
+            influx.writePoints([
+                {
+                    measurement: 'gps',
+                    tags: {
+                        host: os.hostname()
+                    },
+                    fields: { lat: object.lat, lng: object.lng },
+                }
+            ]).catch(err => {
+                console.error(`Error saving data to InfluxDB! ${err.stack}`)
+            })
+
 
         }
+
+
     })
 }
 
@@ -95,6 +113,19 @@ app.get('/', function (req, res) {
 app.get('/ble', function (req, res) {
     influx.query(`
     select * from ble
+    where host = ${Influx.escape.stringLit(os.hostname())}
+    order by time desc
+    limit 10000
+  `).then(result => {
+            res.json(result)
+        }).catch(err => {
+            res.status(500).send(err.stack)
+        })
+})
+
+app.get('/gps', function (req, res) {
+    influx.query(`
+    select * from gps
     where host = ${Influx.escape.stringLit(os.hostname())}
     order by time desc
     limit 10000
