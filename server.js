@@ -92,7 +92,7 @@ app.get('/', function (req, res) {
     setTimeout(() => res.end('Hello world!'), Math.random() * 500)
 })
 
-app.get('/times', function (req, res) {
+app.get('/ble', function (req, res) {
     influx.query(`
     select * from ble
     where host = ${Influx.escape.stringLit(os.hostname())}
