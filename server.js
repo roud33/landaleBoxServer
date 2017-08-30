@@ -67,8 +67,9 @@ function mqttFlow() {
 
         var object = JSON.parse(message.toString())
 
-        if (topic == "alpha2/ble") {
+        if (String(topic) == "alpha2/ble") {
 
+            console.log("test")
             influx.writePoints([
                 {
                     measurement: 'ble',
