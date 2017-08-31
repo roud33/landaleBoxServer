@@ -75,9 +75,10 @@ function mqttFlow() {
                     measurement: 'ble',
                     tags: {
                         host: os.hostname(),
-                        beacon: object.type
+                        beacon: object.beacon,
+                        event : object.event
                     },
-                    fields: { acc: object.acc },
+                    fields: { begin: object.begin, end : object.end },
                 }
             ]).catch(err => {
                 console.error(`Error saving data to InfluxDB! ${err.stack}`)
